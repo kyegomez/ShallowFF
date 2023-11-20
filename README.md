@@ -33,7 +33,7 @@ print(out.shape)
 ## Train
 - First git clone the repo then download and then run the following
 ```
-
+python3 train.py
 ```
 
 
