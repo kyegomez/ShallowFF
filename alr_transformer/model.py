@@ -202,4 +202,3 @@ class ALRTransformer(nn.Module):
         x = self.encoder(x)
         x = self.transformer(x)
         return self.to_logits(x)
-
