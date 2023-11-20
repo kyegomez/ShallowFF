@@ -1,6 +1,7 @@
 import torch
 import torch.nn as nn
 
+
 class FeedForward(nn.Module):
     # Assuming FeedForward class is something like this
     def __init__(self, in_dim, hidden_dim, dropout):
@@ -9,11 +10,14 @@ class FeedForward(nn.Module):
             nn.Linear(in_dim, hidden_dim),
             nn.ReLU(),
             nn.Dropout(dropout),
-            nn.Linear(hidden_dim, in_dim)  # Ensuring the output dimension is the same as input
+            nn.Linear(
+                hidden_dim, in_dim
+            ),  # Ensuring the output dimension is the same as input
         )
 
     def forward(self, x):
         return self.net(x)
+
 
 class ALRBlock(nn.Module):
     """
@@ -29,8 +33,9 @@ class ALRBlock(nn.Module):
     >>> model = ALRBlock(512, 2048, 0.1)
     >>> x = torch.randn(1, 1024, 512)
     >>> model(x).shape
-    
+
     """
+
     def __init__(self, dim, hidden_dim, dropout):
         super().__init__()
         self.dim = dim
@@ -64,4 +69,3 @@ class ALRBlock(nn.Module):
         out = ff_norm + x
 
         return out
-
