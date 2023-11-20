@@ -30,6 +30,12 @@ print(out.shape)
 
 ```
 
+## Train
+- First git clone the repo then download and then run the following
+```
+
+```
+
 
 
 ## Citation
