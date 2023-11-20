@@ -3,7 +3,7 @@ import torch.nn.functional as F
 from einops import rearrange
 from torch import einsum, nn
 import math
-from zeta.nn import FeedForward
+from zeta.nn import FeedForward, Residual
 
 
 # helpers
@@ -185,6 +185,43 @@ class Transformer(nn.Module):
 
 
 # classes
+
+class ALRBlock(nn.Module):
+    def __init__(
+        self,
+        dim,
+        hidden_dim,
+        dropout
+    ):
+        super().__init__()
+        self.dim = dim
+        self.hidden_dim = hidden_dim
+        self.dropout = dropout
+
+        self.ffn = FeedForward(dim, hidden_dim, dropout)
+        self.ff = FeedForward(dim, dim, dropout)
+
+        self.to_q_proj = nn.Linear(dim, dim)
+        self.to_k_proj = nn.Linear(dim, dim)
+        self.to_v_proj = nn.Linear(dim, dim)
+
+        self.norm = nn.LayerNorm(dim)
+
+    def forward(self, x):
+        q, k, v = self.to_q_proj(x), self.to_k_proj(x), self.to_v_proj(x)
+
+        qkv = torch.cat((q, k, v), dim=-1)
+        
+        ffn = self.ffn(qkv) + x
+        norm_ffn = self.norm(ffn)
+
+        ff = self.ff(norm_ffn) + norm_ffn
+
+        return ff
+
+
+        
+
 
 
 class ALRTransformer(nn.Module):
