@@ -26,6 +26,7 @@ python = "^3.9"
 torch = "*"
 einops = "*"
 zetascale = "*"
+pytest = "*"
 
 [tool.poetry.dev-dependencies]
 # Add development dependencies here
