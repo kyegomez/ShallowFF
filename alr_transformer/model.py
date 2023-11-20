@@ -203,7 +203,3 @@ class ALRTransformer(nn.Module):
         x = self.transformer(x)
         return self.to_logits(x)
 
-x = torch.randn(1, 1024, 512)
-model = ALRTransformer(512, 6, 10000, 64, 8, 4)
-model(x).shape
-# torch.Size([1, 1024, 10000])
